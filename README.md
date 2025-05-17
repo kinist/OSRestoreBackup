@@ -1,5 +1,7 @@
 # Windows System Backup Tool | Windows 系统备份工具
 
+[CHANGELOG](CHANGELOG.md)
+
 [中文](#chinese) | [English](#english)
 
 <a name="chinese"></a>
@@ -12,7 +14,7 @@
 - 两种备份模式：
   - 自定义备份：不含系统六目录
   - 全量备份：含系统六目录
-- 自动排除所有 Junction 点
+- 自动检测并排除所有 Junction 点（目录本身为 Junction 时，会在备份目录中创建同名空目录，并生成 JUNCTION_INFO.txt 说明文件）
 - 详细的日志记录系统
 - 管理员权限检查
 - UTF-8 编码支持
@@ -25,9 +27,9 @@
   - 各种应用程序设置
 
 ### 使用前提
-- Windows 操作系统
+- Windows 10 或 Windows 11 操作系统
 - 管理员权限
-- PowerShell 5.0 或更高版本
+- PowerShell 5.0 或更高版本（建议使用 Windows 自带 PowerShell，或 PowerShell Core 7.x 及以上）
 
 ### 使用方法
 1. 以管理员权限运行脚本
@@ -77,7 +79,7 @@ A powerful Windows system backup tool that supports both custom and full system 
 - Two backup modes:
   - Custom backup: Excludes system six directories
   - Full backup: Includes all directories including system six directories
-- Automatic exclusion of all Junction points
+- Automatically detect and exclude all Junction points (if a directory itself is a Junction, an empty directory with the same name will be created in the backup, along with a JUNCTION_INFO.txt description file)
 - Detailed logging system
 - Administrator privilege check
 - UTF-8 encoding support
@@ -90,9 +92,9 @@ A powerful Windows system backup tool that supports both custom and full system 
   - Various application settings
 
 ### Prerequisites
-- Windows operating system
+- Windows 10 or Windows 11 operating system
 - Administrator privileges
-- PowerShell 5.0 or higher
+- PowerShell 5.0 or higher (recommended: built-in Windows PowerShell, or PowerShell Core 7.x and above)
 
 ### Usage
 1. Run the script with administrator privileges

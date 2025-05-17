@@ -25,6 +25,20 @@ if (-not $isAdmin) {
 $OutputEncoding = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
+# 定义检查 Junction 点的函数
+function Test-Junction {
+    param (
+        [string]$Path
+    )
+    
+    if (-not (Test-Path $Path)) {
+        return $false
+    }
+    
+    $item = Get-Item $Path -Force
+    return $item.LinkType -eq "Junction"
+}
+
 # 显示欢迎信息
 $welcomeMessage = @"
 =======================================
@@ -182,7 +196,6 @@ foreach ($source in $backupFolders) {
     $logEntry | Out-File -FilePath $logFile -Encoding utf8 -Append
 
     if (Test-Path $source) {
-    	
         # 获取盘符，并构造新的相对路径
         $driveLetter = ($source -split ":")[0]
         $relativePath = ($source -replace "^[A-Z]:\\", "")
@@ -191,6 +204,35 @@ foreach ($source in $backupFolders) {
         # 计算目标目录
         $destination = Join-Path -Path $destinationPath -ChildPath $relativePath
 
+        # 检查是否为 Junction 点
+        if (Test-Junction $source) {
+            $logResult = "`⚠  检测到 Junction 点: $source"
+            Write-Host $logResult
+            $logResult | Out-File -FilePath $logFile -Encoding utf8 -Append
+
+            try {
+                # 只创建同名目录，不加 (JUNCTION) 后缀
+                $junctionDestination = $destination
+                New-Item -ItemType Directory -Path $junctionDestination -Force | Out-Null
+                
+                # 获取 Junction 的目标地址
+                $junctionTarget = (Get-Item $source -Force).Target
+                # 创建一个说明文件，包含目标地址
+                $junctionInfo = "此目录是原始 Junction 点的占位符。`n原始路径: $source`n类型: JUNCTION`nJunction 目标地址: $junctionTarget"
+                $junctionInfoPath = Join-Path -Path $junctionDestination -ChildPath "JUNCTION_INFO.txt"
+                $junctionInfo | Out-File $junctionInfoPath -Encoding utf8
+
+                $logResult = "`✔  已创建 JUNCTION 点标记目录: $junctionDestination"
+                Write-Host $logResult
+                $logResult | Out-File -FilePath $logFile -Encoding utf8 -Append
+            } catch {
+                $logResult = "`❌  创建 JUNCTION 点标记目录失败: $source - 错误: $_"
+                Write-Host $logResult
+                $logResult | Out-File -FilePath $logFile -Encoding utf8 -Append
+            }
+            continue
+        }
+        
         # ✅ 这里删除重复的 "Log File" 输出
         $logInfo = "`正在拷贝目录: $source -> $destination"
         Write-Host $logInfo
