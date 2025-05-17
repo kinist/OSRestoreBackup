@@ -1,6 +1,9 @@
-# Windows 系统备份工具
+# Windows System Backup Tool | Windows 系统备份工具
 
-[English Version](README_EN.md) | 中文版
+[中文](#chinese) | [English](#english)
+
+<a name="chinese"></a>
+## 中文
 
 ### 简介
 一个功能强大的 Windows 系统备份工具，支持自定义和全量系统备份模式。该工具旨在帮助用户高效地备份重要的系统配置和用户数据。
@@ -9,7 +12,7 @@
 - 两种备份模式：
   - 自定义备份：不含系统六目录
   - 全量备份：含系统六目录
-- 自动排除特定 Junction 点
+- 自动排除所有 Junction 点
 - 详细的日志记录系统
 - 管理员权限检查
 - UTF-8 编码支持
@@ -60,4 +63,69 @@
 - 桌面截图
 - 邮件客户端通讯录
 - 数据库配置
-- HeidiSQL 设置 
+- HeidiSQL 设置
+
+---
+
+<a name="english"></a>
+## English
+
+### Description
+A powerful Windows system backup tool that supports both custom and full system backup modes. This tool is designed to help users backup their important system configurations and user data efficiently.
+
+### Features
+- Two backup modes:
+  - Custom backup: Excludes system six directories
+  - Full backup: Includes all directories including system six directories
+- Automatic exclusion of all Junction points
+- Detailed logging system
+- Administrator privilege check
+- UTF-8 encoding support
+- Multi-threaded file copying
+- Comprehensive backup coverage including:
+  - User profiles
+  - Application data
+  - Development directories
+  - System configurations
+  - Various application settings
+
+### Prerequisites
+- Windows operating system
+- Administrator privileges
+- PowerShell 5.0 or higher
+
+### Usage
+1. Run the script with administrator privileges
+2. Choose backup mode:
+   - 0: Exit
+   - 1: Custom backup (excluding system six directories)
+   - 2: Full backup (including all directories)
+3. Confirm your choice by pressing Enter
+4. Wait for the backup process to complete
+
+### Backup Contents
+- Desktop
+- Downloads
+- Documents
+- Pictures
+- Music
+- Videos
+- Favorites
+- Development configurations (.vscode, .m2, etc.)
+- IDE project directories
+- Application data
+- System configurations
+
+### Notes
+- Ensure sufficient disk space before backup
+- Close running applications before backup
+- Do not close the window during backup
+- Backup logs are saved in the backup directory
+
+### Manual Backup Recommendations
+- Browser bookmarks and passwords
+- Sticky notes
+- Desktop screenshots
+- Email client contacts
+- Database configurations
+- HeidiSQL settings 

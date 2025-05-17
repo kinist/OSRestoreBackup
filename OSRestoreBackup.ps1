@@ -1,34 +1,4 @@
-﻿# ============================================================================
-# 文件名: OSRestoreBackup.ps1
-# 描述: Windows 系统备份工具
-# 功能: 支持自定义备份和全量备份，可排除特定 Junction 点
-# 
-# 作者: Gavin
-# 最后更新: 2024-05-07
-# 版本: 1.0.0
-# 
-# 更新历史:
-# v1.0.0 (2024-05-07)
-# - 初始版本
-# - 支持自定义备份和全量备份
-# - 支持排除特定 Junction 点
-# - 添加详细的日志记录
-# 
-# 使用说明:
-# 1. 需要管理员权限运行
-# 2. 支持两种备份模式：
-#    - 自定义备份：不含系统六目录
-#    - 全量备份：含系统六目录
-# 3. 自动排除 Documents 目录下的特定 Junction 点
-# 4. 使用 run.bat 进行启动
-# 
-# 注意事项:
-# 1. 请确保有足够的磁盘空间
-# 2. 建议在备份前关闭正在运行的程序
-# 3. 备份过程中请勿关闭窗口
-# ============================================================================
-
-# 检查当前进程是否以管理员身份运行
+﻿# 检查当前进程是否以管理员身份运行
 $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object System.Security.Principal.WindowsPrincipal($currentUser)
 $isAdmin = $principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -134,11 +104,11 @@ if ($backupAll) {
 # $env:windir = C:\Windows
 
 # 定义要排除的Junction点
-$excludeJunctions = @(
-    "$env:USERPROFILE\Documents\My Music",
-    "$env:USERPROFILE\Documents\My Pictures",
-    "$env:USERPROFILE\Documents\My Videos"
-)
+# $excludeJunctions = @(
+#     "$env:USERPROFILE\Documents\My Music",
+#     "$env:USERPROFILE\Documents\My Pictures",
+#     "$env:USERPROFILE\Documents\My Videos"
+# )
 
 $allFolders = @(
     "$env:USERPROFILE\Desktop",   # 桌面
@@ -172,7 +142,6 @@ $allFolders = @(
     "$env:APPDATA\RustDesk",
     "$env:APPDATA\Typora",
     "$env:APPDATA\XnViewMP",
-    "${env:ProgramFiles(x86)}\AliWangWang\profiles",
     "$env:windir\System32\drivers\etc"
 )
 
@@ -197,7 +166,6 @@ $logHeader = @"
 =======================================
 📂 备份目标路径: $destinationPath
 📝 日志文件: $logFile
-排除的Junction点: $($excludeJunctions -join ', ')
 =======================================
 "@
 Write-Output $logHeader
